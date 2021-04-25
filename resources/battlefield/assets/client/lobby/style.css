@@ -1,0 +1,9 @@
+body {
+  /*background-image: url("https://i.redd.it/iihvy71tew601.png");*/
+  background-color: transparent;
+  user-select: none;
+}
+
+select {
+  text-align-last: right;
+}

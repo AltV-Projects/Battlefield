@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lobby</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="grid justify-items-center mt-4">
+        <div class="w-4/5 text-left"><img src="logo.png" alt="logo" /></div>
+        <div
+          id="createLobby"
+          class="w-4/5 mt-4 text-white"
+          v-if="lobbyView == 1"
+        >
+          <div id="createLobbyHeader" class="p-3 bg-gray-800 opacity-80">
+            <span class="font-bold uppercase">Create Lobby</span>
+          </div>
+
+          <div id="lobbySettings" class="table w-full">
+            <div class="table-row-group">
+              <div class="table-row bg-gray-700 opacity-80">
+                <div class="table-cell w-2/3 p-2">Game Name</div>
+                <div class="table-cell w-1/3 p-2">
+                  <input
+                    type="text"
+                    class="w-full outline-none placeholder-gray-800 bg-gray-400 p-1 hover:bg-gray-600 text-right pr-2"
+                    placeholder="My cool Lobby..."
+                    v-model="createLobby.name"
+                  />
+                </div>
+              </div>
+
+              <div class="table-row bg-gray-700 opacity-80">
+                <div class="table-cell w-2/3 p-2">Map</div>
+                <div class="table-cell w-1/3 p-2">
+                  <select
+                    name="map"
+                    class="w-full outline-none placeholder-gray-800 bg-gray-400 p-1 hover:bg-gray-600 text-right pr-2"
+                    v-model="createLobby.map"
+                  >
+                    <option value="" selected>Please choose a map</option>
+                    <option v-for="map in maps" :value="map">{{ map }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="table-row bg-gray-700 opacity-80">
+                <div class="table-cell w-2/3 p-2">Max. Player</div>
+                <div class="table-cell w-1/3 p-2">
+                  <input
+                    type="number"
+                    class="w-full outline-none placeholder-gray-800 bg-gray-400 p-1 hover:bg-gray-600 text-right pr-2"
+                    value="12"
+                    v-model="createLobby.maxPlayer"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            id="createLobbyOptions"
+            class="bg-gray-800 opacity-80 text-right"
+          >
+            <button
+              class="w-32 outline-none focus:outline-none h-8 mr-2 bg-red-500 hover:bg-red-600 text-white cursor-default"
+              @click="lobbyView = 0"
+            >
+              Back
+            </button>
+            <button
+              class="w-32 outline-none focus:outline-none h-8 bg-green-500 hover:bg-green-600 text-white cursor-default"
+            >
+              Create
+            </button>
+          </div>
+        </div>
+
+        <div id="lobbyTable" class="w-4/5 mt-4" v-if="lobbyView == 0">
+          <div class="table w-full">
+            <div class="table-row-group">
+              <div class="table-row bg-gray-900 text-white font-bold">
+                <div class="table-cell px-2 py-1 w-3/5">Lobby Name</div>
+                <div class="table-cell px-2 py-1 text-center">Map</div>
+                <div class="table-cell px-2 py-1 text-center">State</div>
+                <div class="table-cell px-2 py-1 text-right">Player</div>
+              </div>
+            </div>
+            <div
+              class="table-row-group"
+              v-for="currentLobby in lobbies"
+              :key="currentLobby.id"
+            >
+              <div
+                class="table-row hover:bg-gray-200 bg-gray-200 bg-opacity-80"
+              >
+                <div class="table-cell px-2 py-1 w-3/5">
+                  {{ currentLobby.name }}
+                </div>
+                <div class="table-cell px-2 py-1 text-center">
+                  {{ currentLobby.map}}
+                </div>
+                <div class="table-cell px-2 py-1 text-center">
+                  {{ getStatusByState (currentLobby.state) }}
+                </div>
+                <div class="table-cell px-2 py-1 text-right">
+                  {{ currentLobby.currentPlayer }} / {{ currentLobby.maxPlayer
+                  }}
+                </div>
+              </div>
+            </div>
+            <br />
+            <div class="table-footer-group">
+              <div class="table-row">
+                <div class="table-cell">
+                  <input
+                    type="text"
+                    class="w-4/5 outline-none placeholder-gray-800 bg-gray-400 p-1 hover:bg-gray-300"
+                    placeholder="Search Lobbies"
+                  />
+                </div>
+                <div class="table-cell py-1 text-right"></div>
+                <div class="table-cell py-1 text-right">
+                  <button
+                    class="outline-none focus:outline-none mr-3 w-28 p-1 bg-green-500 hover:bg-green-600 text-white cursor-default"
+                    @click="lobbyView = 1"
+                  >
+                    Create Lobby
+                  </button>
+                </div>
+                <div class="table-cell py-1 text-right">
+                  <button
+                    class="outline-none focus:outline-none w-28 py-1 br-2 bg-indigo-700 hover:bg-indigo-800 text-white cursor-default"
+                  >
+                    Join
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
